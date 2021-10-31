@@ -18,7 +18,17 @@ console.log(uri);
 async function run() {
     try {
         await client.connect();
-        console.log('DataBase Connected Successfully');
+        //console.log('DataBase Connected Successfully');
+        const database = client.db('foodie');
+        const productCollection = database.collection('packages');
+
+        //Get Products API
+        app.get('/packages', async (req, res) => {
+            const cursor = productCollection.find({});
+            const packages = await cursor.toArray();
+            res.send(packages);
+        })
+
     }
     finally {
         //await client.close()
